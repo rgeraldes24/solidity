@@ -36,7 +36,7 @@ __pycache__
 *.app
 
 # Build directory
-#/build*
+/build*
 emscripten_build/
 /docs/_build
 /docs/_static/robots.txt
