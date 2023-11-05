@@ -42,7 +42,6 @@ int magicVariableToID(std::string const& _name)
 	else if (_name == "assert") return -3;
 	else if (_name == "block") return -4;
 	else if (_name == "blockhash") return -5;
-	else if (_name == "ecrecover") return -6;
 	else if (_name == "gasleft") return -7;
 	else if (_name == "keccak256") return -8;
 	else if (_name == "msg") return -15;
@@ -59,6 +58,7 @@ int magicVariableToID(std::string const& _name)
 	else if (_name == "tx") return -26;
 	else if (_name == "type") return -27;
 	else if (_name == "this") return -28;
+	else if (_name == "depositDataRoot") return -28;
 	else
 		solAssert(false, "Unknown magic variable: \"" + _name + "\".");
 }
@@ -75,7 +75,6 @@ inline std::vector<std::shared_ptr<MagicVariableDeclaration const>> constructMag
 		magicVarDecl("assert", TypeProvider::function(strings{"bool"}, strings{}, FunctionType::Kind::Assert, StateMutability::Pure)),
 		magicVarDecl("block", TypeProvider::magic(MagicType::Kind::Block)),
 		magicVarDecl("blockhash", TypeProvider::function(strings{"uint256"}, strings{"bytes32"}, FunctionType::Kind::BlockHash, StateMutability::View)),
-		magicVarDecl("ecrecover", TypeProvider::function(strings{"bytes32", "uint8", "bytes32", "bytes32"}, strings{"address"}, FunctionType::Kind::ECRecover, StateMutability::Pure)),
 		magicVarDecl("gasleft", TypeProvider::function(strings(), strings{"uint256"}, FunctionType::Kind::GasLeft, StateMutability::View)),
 		magicVarDecl("keccak256", TypeProvider::function(strings{"bytes memory"}, strings{"bytes32"}, FunctionType::Kind::KECCAK256, StateMutability::Pure)),
 		magicVarDecl("msg", TypeProvider::magic(MagicType::Kind::Message)),
@@ -100,6 +99,7 @@ inline std::vector<std::shared_ptr<MagicVariableDeclaration const>> constructMag
 			StateMutability::Pure,
 			FunctionType::Options::withArbitraryParameters()
 		)),
+		magicVarDecl("depositDataRoot", TypeProvider::function(strings{"bytes memory", "bytes memory", "bytes memory", "bytes memory"}, strings{"bytes32"}, FunctionType::Kind::DepositDataRoot, StateMutability::Pure)),
 	};
 }
 

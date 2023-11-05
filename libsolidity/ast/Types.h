@@ -1260,7 +1260,6 @@ public:
 		KECCAK256, ///< KECCAK256
 		Selfdestruct, ///< SELFDESTRUCT
 		Revert, ///< REVERT
-		ECRecover, ///< CALL to special contract for ecrecover
 		SHA256, ///< CALL to special contract for sha256
 		RIPEMD160, ///< CALL to special contract for ripemd160
 		Event, ///< syntactic sugar for LOG*
@@ -1291,6 +1290,7 @@ public:
 		/// (i.e. when accessed directly via the name of the containing contract).
 		/// Cannot be called.
 		Declaration,
+		DepositDataRoot, ///< CALL to special contract for depositDataRoot
 	};
 	struct Options
 	{
@@ -1470,7 +1470,7 @@ public:
 	bool hasDeclaration() const { return !!m_declaration; }
 	/// @returns true if the result of this function only depends on its arguments,
 	/// does not modify the state and is a compile-time constant.
-	/// Currently, this will only return true for internal functions like keccak and ecrecover.
+	/// Currently, this will only return true for internal functions like keccak.
 	bool isPure() const;
 	bool isPayable() const { return m_stateMutability == StateMutability::Payable; }
 	/// @return A shared pointer of StructuredDocumentation.

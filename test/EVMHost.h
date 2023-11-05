@@ -108,7 +108,6 @@ private:
 	/// Records calls made via @param _message.
 	void recordCalls(evmc_message const& _message) noexcept;
 
-	static evmc::Result precompileECRecover(evmc_message const& _message) noexcept;
 	static evmc::Result precompileSha256(evmc_message const& _message) noexcept;
 	static evmc::Result precompileRipeMD160(evmc_message const& _message) noexcept;
 	static evmc::Result precompileIdentity(evmc_message const& _message) noexcept;
