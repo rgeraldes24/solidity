@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libsolc_ossfuzz.a CMakeFiles/solc_ossfuzz.dir/solc_ossfuzz.cpp.o CMakeFiles/solc_ossfuzz.dir/__/fuzzer_common.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libsolc_ossfuzz.a

@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libyulInterpreter.a CMakeFiles/yulInterpreter.dir/EVMInstructionInterpreter.cpp.o CMakeFiles/yulInterpreter.dir/Interpreter.cpp.o CMakeFiles/yulInterpreter.dir/Inspector.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libyulInterpreter.a

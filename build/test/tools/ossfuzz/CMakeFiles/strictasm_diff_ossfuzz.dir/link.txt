@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libstrictasm_diff_ossfuzz.a CMakeFiles/strictasm_diff_ossfuzz.dir/strictasm_diff_ossfuzz.cpp.o CMakeFiles/strictasm_diff_ossfuzz.dir/yulFuzzerCommon.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libstrictasm_diff_ossfuzz.a

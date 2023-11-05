@@ -1,0 +1,12 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=url
+command=/opt/homebrew/Cellar/cmake/3.27.7/bin/cmake;-P;/Users/ricardogeraldes/workspace/rgeraldes24/solidity/build/deps/src/fmtlib-populate-stamp/download-fmtlib-populate.cmake;COMMAND;/opt/homebrew/Cellar/cmake/3.27.7/bin/cmake;-P;/Users/ricardogeraldes/workspace/rgeraldes24/solidity/build/deps/src/fmtlib-populate-stamp/verify-fmtlib-populate.cmake;COMMAND;/opt/homebrew/Cellar/cmake/3.27.7/bin/cmake;-P;/Users/ricardogeraldes/workspace/rgeraldes24/solidity/build/deps/src/fmtlib-populate-stamp/extract-fmtlib-populate.cmake
+source_dir=/Users/ricardogeraldes/workspace/rgeraldes24/solidity/build/_deps/fmtlib-src
+work_dir=/Users/ricardogeraldes/workspace/rgeraldes24/solidity/build/_deps
+url(s)=https://github.com/fmtlib/fmt/archive/9.1.0.tar.gz
+hash=SHA256=5dea48d1fcddc3ec571ce2058e13910a0d4a6bab4cc09a809d8b1dd1c88ae6f2
+no_extract=
+
