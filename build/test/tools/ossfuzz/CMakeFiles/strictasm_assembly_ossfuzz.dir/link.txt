@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libstrictasm_assembly_ossfuzz.a CMakeFiles/strictasm_assembly_ossfuzz.dir/strictasm_assembly_ossfuzz.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libstrictasm_assembly_ossfuzz.a

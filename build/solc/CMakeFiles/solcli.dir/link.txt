@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libsolcli.a CMakeFiles/solcli.dir/CommandLineInterface.cpp.o CMakeFiles/solcli.dir/CommandLineParser.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libsolcli.a
