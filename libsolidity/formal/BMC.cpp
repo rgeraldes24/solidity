@@ -641,6 +641,7 @@ void BMC::endVisit(FunctionCall const& _funCall)
 		break;
 	}
 	case FunctionType::Kind::KECCAK256:
+	case FunctionType::Kind::DepositRoot:
 	case FunctionType::Kind::SHA256:
 	case FunctionType::Kind::RIPEMD160:
 	case FunctionType::Kind::BlockHash:

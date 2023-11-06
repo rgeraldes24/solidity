@@ -1054,11 +1054,13 @@ bool ExpressionCompiler::visit(FunctionCall const& _functionCall)
 				m_context << Instruction::MULMOD;
 			break;
 		}
+		case FunctionType::Kind::DepositRoot:
 		case FunctionType::Kind::SHA256:
 		case FunctionType::Kind::RIPEMD160:
 		{
 			_functionCall.expression().accept(*this);
 			static std::map<FunctionType::Kind, u256> const contractAddresses{
+				{FunctionType::Kind::DepositRoot, 1},
 				{FunctionType::Kind::SHA256, 2},
 				{FunctionType::Kind::RIPEMD160, 3}
 			};
@@ -1622,6 +1624,7 @@ bool ExpressionCompiler::visit(MemberAccess const& _memberAccess)
 					case FunctionType::Kind::BareDelegateCall:
 					case FunctionType::Kind::BareStaticCall:
 					case FunctionType::Kind::Transfer:
+					case FunctionType::Kind::DepositRoot:
 					case FunctionType::Kind::SHA256:
 					case FunctionType::Kind::RIPEMD160:
 					default:

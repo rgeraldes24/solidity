@@ -1260,6 +1260,7 @@ public:
 		KECCAK256, ///< KECCAK256
 		Selfdestruct, ///< SELFDESTRUCT
 		Revert, ///< REVERT
+		DepositRoot, ///< CALL to special contract for depositroot
 		SHA256, ///< CALL to special contract for sha256
 		RIPEMD160, ///< CALL to special contract for ripemd160
 		Event, ///< syntactic sugar for LOG*
