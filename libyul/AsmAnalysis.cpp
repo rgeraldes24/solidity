@@ -698,7 +698,7 @@ bool AsmAnalyzer::validateInstructions(evmasm::Instruction _instr, SourceLocatio
 			_location,
 			fmt::format(
 				"The \"{instruction}\" instruction is {kind} VMs (you are currently compiling for \"{version}\").",
-				fmt::arg("instruction", boost::to_lower_copy(instructionInfo(_instr, m_evmVersion).name)),
+				fmt::arg("instruction", boost::to_lower_copy(instructionInfo(_instr).name)),
 				fmt::arg("kind", vmKindMessage),
 				fmt::arg("version", m_evmVersion.name())
 			)

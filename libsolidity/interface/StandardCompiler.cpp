@@ -365,7 +365,6 @@ Json::Value formatImmutableReferences(std::map<u256, std::pair<std::string, std:
 }
 
 Json::Value collectEVMObject(
-	langutil::EVMVersion _evmVersion,
 	evmasm::LinkerObject const& _object,
 	std::string const* _sourceMap,
 	Json::Value _generatedSources,
@@ -377,7 +376,7 @@ Json::Value collectEVMObject(
 	if (_artifactRequested("object"))
 		output["object"] = _object.toHex();
 	if (_artifactRequested("opcodes"))
-		output["opcodes"] = evmasm::disassemble(_object.bytecode, _evmVersion);
+		output["opcodes"] = evmasm::disassemble(_object.bytecode);
 	if (_artifactRequested("sourceMap"))
 		output["sourceMap"] = _sourceMap ? *_sourceMap : "";
 	if (_artifactRequested("functionDebugData"))
@@ -1407,7 +1406,6 @@ Json::Value StandardCompiler::compileSolidity(StandardCompiler::InputsAndSetting
 			wildcardMatchesExperimental
 		))
 			evmData["bytecode"] = collectEVMObject(
-				_inputsAndSettings.evmVersion,
 				compilerStack.object(contractName),
 				compilerStack.sourceMapping(contractName),
 				compilerStack.generatedSources(contractName),
@@ -1429,7 +1427,6 @@ Json::Value StandardCompiler::compileSolidity(StandardCompiler::InputsAndSetting
 			wildcardMatchesExperimental
 		))
 			evmData["deployedBytecode"] = collectEVMObject(
-				_inputsAndSettings.evmVersion,
 				compilerStack.runtimeObject(contractName),
 				compilerStack.runtimeSourceMapping(contractName),
 				compilerStack.generatedSources(contractName, true),
@@ -1579,7 +1576,6 @@ Json::Value StandardCompiler::compileYul(InputsAndSettings _inputsAndSettings)
 			if (o.bytecode)
 				output["contracts"][sourceName][contractName]["evm"][kind] =
 					collectEVMObject(
-						_inputsAndSettings.evmVersion,
 						*o.bytecode,
 						o.sourceMappings.get(),
 						Json::arrayValue,

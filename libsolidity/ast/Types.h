@@ -1290,7 +1290,6 @@ public:
 		/// (i.e. when accessed directly via the name of the containing contract).
 		/// Cannot be called.
 		Declaration,
-		DepositDataRoot, ///< CALL to special contract for depositDataRoot
 	};
 	struct Options
 	{

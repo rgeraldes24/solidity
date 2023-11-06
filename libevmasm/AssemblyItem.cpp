@@ -69,12 +69,12 @@ std::pair<size_t, size_t> AssemblyItem::splitForeignPushTag() const
 	return std::make_pair(subId, tag);
 }
 
-std::pair<std::string, std::string> AssemblyItem::nameAndData(langutil::EVMVersion _evmVersion) const
+std::pair<std::string, std::string> AssemblyItem::nameAndData() const
 {
 	switch (type())
 	{
 	case Operation:
-		return {instructionInfo(instruction(), _evmVersion).name, m_data != nullptr ? toStringInHex(*m_data) : ""};
+		return {instructionInfo(instruction()).name, m_data != nullptr ? toStringInHex(*m_data) : ""};
 	case Push:
 		return {"PUSH", toStringInHex(data())};
 	case PushTag:
@@ -170,7 +170,7 @@ size_t AssemblyItem::arguments() const
 	if (type() == Operation)
 		// The latest EVMVersion is used here, since the InstructionInfo is assumed to be
 		// the same across all EVM versions except for the instruction name.
-		return static_cast<size_t>(instructionInfo(instruction(), EVMVersion()).args);
+		return static_cast<size_t>(instructionInfo(instruction()).args);
 	else if (type() == VerbatimBytecode)
 		return std::get<0>(*m_verbatimBytecode);
 	else if (type() == AssignImmutable)
@@ -186,7 +186,7 @@ size_t AssemblyItem::returnValues() const
 	case Operation:
 		// The latest EVMVersion is used here, since the InstructionInfo is assumed to be
 		// the same across all EVM versions except for the instruction name.
-		return static_cast<size_t>(instructionInfo(instruction(), EVMVersion()).ret);
+		return static_cast<size_t>(instructionInfo(instruction()).ret);
 	case Push:
 	case PushTag:
 	case PushData:
@@ -267,7 +267,7 @@ std::string AssemblyItem::toAssemblyText(Assembly const& _assembly) const
 	case Operation:
 	{
 		assertThrow(isValidInstruction(instruction()), AssemblyException, "Invalid instruction.");
-		text = util::toLower(instructionInfo(instruction(), _assembly.evmVersion()).name);
+		text = util::toLower(instructionInfo(instruction()).name);
 		break;
 	}
 	case Push:
@@ -345,7 +345,7 @@ std::ostream& solidity::evmasm::operator<<(std::ostream& _out, AssemblyItem cons
 	switch (_item.type())
 	{
 	case Operation:
-		_out << " " << instructionInfo(_item.instruction(), EVMVersion()).name;
+		_out << " " << instructionInfo(_item.instruction()).name;
 		if (_item.instruction() == Instruction::JUMP || _item.instruction() == Instruction::JUMPI)
 			_out << "\t" << _item.getJumpTypeAsString();
 		break;

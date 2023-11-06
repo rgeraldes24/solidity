@@ -2,18 +2,16 @@ contract C {
     function f() view public {
         bytes32 x = keccak256("abc");
         bytes32 y = sha256("abc");
-        bytes32 z = depositDataRoot("", "", "", "");
         require(true);
         assert(true);
-        x; y; z;
+        x; y; 
     }
     function g() public {
         bytes32 x = keccak256("abc");
         bytes32 y = sha256("abc");
-        bytes32 z = depositDataRoot("", "", "", "");
         require(true);
         assert(true);
-        x; y; z;
+        x; y;
     }
 }
 // ----

@@ -308,7 +308,7 @@ struct InstructionInfo
 };
 
 /// Information on all the instructions.
-InstructionInfo instructionInfo(Instruction _inst, langutil::EVMVersion _evmVersion);
+InstructionInfo instructionInfo(Instruction _inst);
 
 /// check whether instructions exists.
 bool isValidInstruction(Instruction _inst);
