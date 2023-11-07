@@ -8,6 +8,12 @@ contract C {
 
     //#8277
     function f3()public{return()=();}
+
+    //#8277
+    function f4 ( bytes pubkey , bytes withdrawal_credentials , bytes amount , bytes signature , uint blockExpired , bytes32 salt ) public returns ( address ) {
+        require ( ( ( ) ) |= keccak256 ( abi . encodePacked ( blockExpired , salt ) ) ) ;
+        return depositroot ( pubkey , withdrawal_credentials , amount , signature ) ;
+    }
 }
 // ----
 // TypeError 5547: (41-43): Empty tuple on the left hand side.

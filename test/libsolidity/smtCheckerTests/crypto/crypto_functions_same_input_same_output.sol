@@ -17,6 +17,12 @@ contract C {
 		bytes32 r1 = ripemd160(b1);
 		assert(r0 == r1);
 	}
+	function d(bytes h0, bytes v0, bytes r0, bytes s0) public pure {
+		(bytes h1, bytes v1, bytes r1, bytes s1) = (h0, v0, r0, s0);
+		bytes32 d0 = depositroot(h0, v0, r0, s0);
+		bytes32 d1 = depositroot(h1, v1, r1, s1);
+		assert(d0 == d1);
+	}
 }
 // ====
 // SMTEngine: all

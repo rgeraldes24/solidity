@@ -1,7 +1,7 @@
 contract C {
     function f() public {
         assembly {
-            pop(prevrandao())
+            pop(number())
         }
     }
 }

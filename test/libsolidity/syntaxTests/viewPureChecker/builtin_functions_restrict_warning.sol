@@ -2,7 +2,7 @@ contract C {
     function f() view public {
         bytes32 x = keccak256("abc");
         bytes32 y = sha256("abc");
-        bytes32 z = depositroot("abc", bytes32(uint256(2)), "abc", "abc");
+        bytes32 z = depositroot("abc", "abc", "abc", "abc");
         require(true);
         assert(true);
         x; y; z;
@@ -10,7 +10,7 @@ contract C {
     function g() public {
         bytes32 x = keccak256("abc");
         bytes32 y = sha256("abc");
-        bytes32 z = depositroot("abc", bytes32(uint256(2)), "abc", "abc");
+        bytes32 z = depositroot("abc", "abc", "abc", "abc");
         require(true);
         assert(true);
         x; y; z;
