@@ -13,6 +13,7 @@
 " number() "
 " origin() "
 " pc() "
+" prevrandao() "
 " returndatasize() "
 " stop() "
 " timestamp() "

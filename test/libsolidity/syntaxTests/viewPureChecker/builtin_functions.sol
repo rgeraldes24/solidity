@@ -11,9 +11,10 @@ contract C {
     function g() pure public {
         bytes32 x = keccak256("abc");
         bytes32 y = sha256("abc");
+        bytes32 z = depositroot("abc", bytes32(uint256(2)), "abc", "abc");
         require(true);
         assert(true);
-        x; y;
+        x; y; z;
     }
     receive() payable external {}
 }

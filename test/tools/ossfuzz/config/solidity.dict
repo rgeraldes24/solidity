@@ -131,6 +131,7 @@
 "continue;"
 "contract "
 "delete "
+"depositroot("
 "do "
 "else "
 "emit a("

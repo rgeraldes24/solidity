@@ -419,8 +419,7 @@ evmc::bytes32 EVMHost::convertToEVMC(h256 const& _data)
 	return d;
 }
 
-/*
-@TODO(rgeraldes24)
+// @TODO(rgeraldes24) - fix arg values
 evmc::Result EVMHost::precompileDepositRoot(evmc_message const& _message) noexcept
 {
 	// NOTE this is a partial implementation for some inputs.
@@ -454,13 +453,9 @@ evmc::Result EVMHost::precompileDepositRoot(evmc_message const& _message) noexce
 			}
 		}
 	};
-	evmc::Result result = precompileGeneric(_message, inputOutput);
-	// ECRecover will return success with empty response in case of failure
-	if (result.status_code != EVMC_SUCCESS && result.status_code != EVMC_OUT_OF_GAS)
-		return resultWithGas(_message.gas, gas_cost, {});
-	return result;
+	
+	return precompileGeneric(_message, inputOutput);
 }
-*/
 
 evmc::Result EVMHost::precompileSha256(evmc_message const& _message) noexcept
 {
