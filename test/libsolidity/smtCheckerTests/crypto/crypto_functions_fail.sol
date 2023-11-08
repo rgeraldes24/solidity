@@ -16,11 +16,11 @@ contract C {
 		// Disabled because of Spacer nondeterminism.
 		//assert(r0 == r1);
 	}
-	function e(bytes32 h0, uint8 v0, bytes32 r0, bytes32 s0, bytes32 h1, uint8 v1, bytes32 r1, bytes32 s1) public pure {
-		address a0 = ecrecover(h0, v0, r0, s0);
-		address a1 = ecrecover(h1, v1, r1, s1);
+	function d(bytes pubkey0, bytes withdrawal_credentials0, bytes amount0, bytes signature0, bytes pubkey1, bytes withdrawal_credentials1, bytes amount1, bytes signature1) public pure {
+		bytes32 d0 = depositroot(pubkey0, withdrawal_credentials0, amount0, signature0);
+		bytes32 d1 = depositroot(pubkey1, withdrawal_credentials1, amount1, signature1);
 		// Disabled because of Spacer nondeterminism.
-		//assert(a0 == a1);
+		//assert(d0 == d1);
 	}
 }
 // ====

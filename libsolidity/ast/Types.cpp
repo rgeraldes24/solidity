@@ -3049,7 +3049,7 @@ std::string FunctionType::richIdentifier() const
 	case Kind::KECCAK256: id += "keccak256"; break;
 	case Kind::Selfdestruct: id += "selfdestruct"; break;
 	case Kind::Revert: id += "revert"; break;
-	case Kind::ECRecover: id += "ecrecover"; break;
+	case Kind::DepositRoot: id += "depositroot"; break;
 	case Kind::SHA256: id += "sha256"; break;
 	case Kind::RIPEMD160: id += "ripemd160"; break;
 	case Kind::GasLeft: id += "gasleft"; break;
@@ -3587,7 +3587,7 @@ bool FunctionType::isBareCall() const
 	case Kind::BareCallCode:
 	case Kind::BareDelegateCall:
 	case Kind::BareStaticCall:
-	case Kind::ECRecover:
+	case Kind::DepositRoot:
 	case Kind::SHA256:
 	case Kind::RIPEMD160:
 		return true;
@@ -3650,7 +3650,7 @@ bool FunctionType::isPure() const
 	//       the callgraph analyzer is in place
 	return
 		m_kind == Kind::KECCAK256 ||
-		m_kind == Kind::ECRecover ||
+		m_kind == Kind::DepositRoot ||
 		m_kind == Kind::SHA256 ||
 		m_kind == Kind::RIPEMD160 ||
 		m_kind == Kind::AddMod ||
@@ -4111,7 +4111,6 @@ MemberList::MemberMap MagicType::nativeMembers(ASTNode const*) const
 			{"coinbase", TypeProvider::payableAddress()},
 			{"timestamp", TypeProvider::uint256()},
 			{"blockhash", TypeProvider::function(strings{"uint"}, strings{"bytes32"}, FunctionType::Kind::BlockHash, StateMutability::View)},
-			{"difficulty", TypeProvider::uint256()},
 			{"prevrandao", TypeProvider::uint256()},
 			{"number", TypeProvider::uint256()},
 			{"gaslimit", TypeProvider::uint256()},

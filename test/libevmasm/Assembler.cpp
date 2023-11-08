@@ -273,7 +273,7 @@ BOOST_AUTO_TEST_CASE(immutables_and_its_source_maps)
 			auto const numberOfMappings = std::count(sourceMappings.begin(), sourceMappings.end(), ';');
 
 			LinkerObject const& obj = assembly.assemble();
-			std::string const disassembly = disassemble(obj.bytecode, evmVersion, "\n");
+			std::string const disassembly = disassemble(obj.bytecode, "\n");
 			auto const numberOfOpcodes = std::count(disassembly.begin(), disassembly.end(), '\n');
 
 			#if 0 // {{{ debug prints

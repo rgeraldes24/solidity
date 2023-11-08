@@ -1054,13 +1054,13 @@ bool ExpressionCompiler::visit(FunctionCall const& _functionCall)
 				m_context << Instruction::MULMOD;
 			break;
 		}
-		case FunctionType::Kind::ECRecover:
+		case FunctionType::Kind::DepositRoot:
 		case FunctionType::Kind::SHA256:
 		case FunctionType::Kind::RIPEMD160:
 		{
 			_functionCall.expression().accept(*this);
 			static std::map<FunctionType::Kind, u256> const contractAddresses{
-				{FunctionType::Kind::ECRecover, 1},
+				{FunctionType::Kind::DepositRoot, 1},
 				{FunctionType::Kind::SHA256, 2},
 				{FunctionType::Kind::RIPEMD160, 3}
 			};
@@ -1624,7 +1624,7 @@ bool ExpressionCompiler::visit(MemberAccess const& _memberAccess)
 					case FunctionType::Kind::BareDelegateCall:
 					case FunctionType::Kind::BareStaticCall:
 					case FunctionType::Kind::Transfer:
-					case FunctionType::Kind::ECRecover:
+					case FunctionType::Kind::DepositRoot:
 					case FunctionType::Kind::SHA256:
 					case FunctionType::Kind::RIPEMD160:
 					default:
@@ -1868,7 +1868,7 @@ bool ExpressionCompiler::visit(MemberAccess const& _memberAccess)
 			m_context << Instruction::COINBASE;
 		else if (member == "timestamp")
 			m_context << Instruction::TIMESTAMP;
-		else if (member == "difficulty" || member == "prevrandao")
+		else if (member == "prevrandao")
 			m_context << Instruction::PREVRANDAO;
 		else if (member == "number")
 			m_context << Instruction::NUMBER;
@@ -2682,19 +2682,6 @@ void ExpressionCompiler::appendExternalFunctionCall(
 		argumentTypes.push_back(_arguments[i]->annotation().type);
 	}
 
-	if (funKind == FunctionType::Kind::ECRecover)
-	{
-		// Clears 32 bytes of currently free memory and advances free memory pointer.
-		// Output area will be "start of input area" - 32.
-		// The reason is that a failing ECRecover cannot be detected, it will just return
-		// zero bytes (which we cannot detect).
-		solAssert(0 < retSize && retSize <= 32, "");
-		utils().fetchFreeMemoryPointer();
-		m_context << u256(0) << Instruction::DUP2 << Instruction::MSTORE;
-		m_context << u256(32) << Instruction::ADD;
-		utils().storeFreeMemoryPointer();
-	}
-
 	if (!m_context.evmVersion().canOverchargeGasForCall())
 	{
 		// Touch the end of the output area so that we do not pay for memory resize during the call
@@ -2722,9 +2709,7 @@ void ExpressionCompiler::appendExternalFunctionCall(
 	// Move arguments to memory, will not update the free memory pointer (but will update the memory
 	// pointer on the stack).
 	bool encodeInPlace = _functionType.takesArbitraryParameters() || _functionType.isBareCall();
-	if (_functionType.kind() == FunctionType::Kind::ECRecover)
-		// This would be the only combination of padding and in-place encoding,
-		// but all parameters of ecrecover are value types anyway.
+	if (_functionType.kind() == FunctionType::Kind::DepositRoot)
 		encodeInPlace = false;
 	bool encodeForLibraryCall = funKind == FunctionType::Kind::DelegateCall;
 	utils().encodeToMemory(
@@ -2743,24 +2728,12 @@ void ExpressionCompiler::appendExternalFunctionCall(
 	// function identifier [unless bare]
 	// contract address
 
-	// Output data will replace input data, unless we have ECRecover (then, output
-	// area will be 32 bytes just before input area).
+	// Output data will replace input data.
 	// put on stack: <size of output> <memory pos of output> <size of input> <memory pos of input>
 	m_context << u256(retSize);
 	utils().fetchFreeMemoryPointer(); // This is the start of input
-	if (funKind == FunctionType::Kind::ECRecover)
-	{
-		// In this case, output is 32 bytes before input and has already been cleared.
-		m_context << u256(32) << Instruction::DUP2 << Instruction::SUB << Instruction::SWAP1;
-		// Here: <input end> <output size> <outpos> <input pos>
-		m_context << Instruction::DUP1 << Instruction::DUP5 << Instruction::SUB;
-		m_context << Instruction::SWAP1;
-	}
-	else
-	{
-		m_context << Instruction::DUP1 << Instruction::DUP4 << Instruction::SUB;
-		m_context << Instruction::DUP2;
-	}
+	m_context << Instruction::DUP1 << Instruction::DUP4 << Instruction::SUB;
+	m_context << Instruction::DUP2;
 
 	// CALL arguments: outSize, outOff, inSize, inOff (already present up to here)
 	// [value,] addr, gas (stack top)
@@ -2861,14 +2834,6 @@ void ExpressionCompiler::appendExternalFunctionCall(
 		utils().fetchFreeMemoryPointer();
 		utils().loadFromMemoryDynamic(IntegerType(160), false, true, false);
 		utils().convertType(IntegerType(160), FixedBytesType(20));
-	}
-	else if (funKind == FunctionType::Kind::ECRecover)
-	{
-		// Output is 32 bytes before input / free mem pointer.
-		// Failing ecrecover cannot be detected, so we clear output before the call.
-		m_context << u256(32);
-		utils().fetchFreeMemoryPointer();
-		m_context << Instruction::SUB << Instruction::MLOAD;
 	}
 	else if (!returnTypes.empty())
 	{

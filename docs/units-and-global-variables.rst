@@ -67,7 +67,7 @@ There are special variables and functions which always exist in the global
 namespace and are mainly used to provide information about the blockchain
 or are general-use utility functions.
 
-.. index:: abi, block, coinbase, difficulty, prevrandao, encode, number, block;number, timestamp, block;timestamp, msg, data, gas, sender, value, gas price, origin
+.. index:: abi, block, coinbase, prevrandao, encode, number, block;number, timestamp, block;timestamp, msg, data, gas, sender, value, gas price, origin
 
 
 Block and Transaction Properties
@@ -77,7 +77,6 @@ Block and Transaction Properties
 - ``block.basefee`` (``uint``): current block's base fee (`EIP-3198 <https://eips.ethereum.org/EIPS/eip-3198>`_ and `EIP-1559 <https://eips.ethereum.org/EIPS/eip-1559>`_)
 - ``block.chainid`` (``uint``): current chain id
 - ``block.coinbase`` (``address payable``): current block miner's address
-- ``block.difficulty`` (``uint``): current block difficulty (``EVM < Paris``). For other EVM versions it behaves as a deprecated alias for ``block.prevrandao`` (`EIP-4399 <https://eips.ethereum.org/EIPS/eip-4399>`_ )
 - ``block.gaslimit`` (``uint``): current block gaslimit
 - ``block.number`` (``uint``): current block number
 - ``block.prevrandao`` (``uint``): random number provided by the beacon chain (``EVM >= Paris``)
@@ -188,7 +187,7 @@ more details on error handling and when to use which function.
 ``revert(string memory reason)``
     abort execution and revert state changes, providing an explanatory string
 
-.. index:: keccak256, ripemd160, sha256, ecrecover, addmod, mulmod, cryptography,
+.. index:: keccak256, ripemd160, sha256, addmod, mulmod, cryptography,
 
 .. _mathematical-and-cryptographic-functions:
 
@@ -214,32 +213,9 @@ Mathematical and Cryptographic Functions
 ``ripemd160(bytes memory) returns (bytes20)``
     compute RIPEMD-160 hash of the input
 
-``ecrecover(bytes32 hash, uint8 v, bytes32 r, bytes32 s) returns (address)``
-    recover the address associated with the public key from elliptic curve signature or return zero on error.
-    The function parameters correspond to ECDSA values of the signature:
-
-    * ``r`` = first 32 bytes of signature
-    * ``s`` = second 32 bytes of signature
-    * ``v`` = final 1 byte of signature
-
-    ``ecrecover`` returns an ``address``, and not an ``address payable``. See :ref:`address payable<address>` for
-    conversion, in case you need to transfer funds to the recovered address.
-
-    For further details, read `example usage <https://ethereum.stackexchange.com/questions/1777/workflow-on-signing-a-string-with-private-key-followed-by-signature-verificatio>`_.
-
-.. warning::
-
-    If you use ``ecrecover``, be aware that a valid signature can be turned into a different valid signature without
-    requiring knowledge of the corresponding private key. In the Homestead hard fork, this issue was fixed
-    for _transaction_ signatures (see `EIP-2 <https://eips.ethereum.org/EIPS/eip-2#specification>`_), but
-    the ecrecover function remained unchanged.
-
-    This is usually not a problem unless you require signatures to be unique or use them to identify items.
-    OpenZeppelin has an `ECDSA helper library <https://docs.openzeppelin.com/contracts/4.x/api/utils#ECDSA>`_ that you can use as a wrapper for ``ecrecover`` without this issue.
-
 .. note::
 
-    When running ``sha256``, ``ripemd160`` or ``ecrecover`` on a *private blockchain*, you might encounter Out-of-Gas. This is because these functions are implemented as "precompiled contracts" and only really exist after they receive the first message (although their contract code is hardcoded). Messages to non-existing contracts are more expensive and thus the execution might run into an Out-of-Gas error. A workaround for this problem is to first send Wei (1 for example) to each of the contracts before you use them in your actual contracts. This is not an issue on the main or test net.
+    When running ``sha256``, ``ripemd160`` on a *private blockchain*, you might encounter Out-of-Gas. This is because these functions are implemented as "precompiled contracts" and only really exist after they receive the first message (although their contract code is hardcoded). Messages to non-existing contracts are more expensive and thus the execution might run into an Out-of-Gas error. A workaround for this problem is to first send Wei (1 for example) to each of the contracts before you use them in your actual contracts. This is not an issue on the main or test net.
 
 .. index:: balance, codehash, send, transfer, call, callcode, delegatecall, staticcall
 

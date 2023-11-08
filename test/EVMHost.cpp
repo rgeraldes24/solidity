@@ -215,7 +215,7 @@ evmc::Result EVMHost::call(evmc_message const& _message) noexcept
 {
 	recordCalls(_message);
 	if (_message.recipient == 0x0000000000000000000000000000000000000001_address)
-		return precompileECRecover(_message);
+		return precompileDepositRoot(_message);
 	else if (_message.recipient == 0x0000000000000000000000000000000000000002_address)
 		return precompileSha256(_message);
 	else if (_message.recipient == 0x0000000000000000000000000000000000000003_address)
@@ -419,7 +419,8 @@ evmc::bytes32 EVMHost::convertToEVMC(h256 const& _data)
 	return d;
 }
 
-evmc::Result EVMHost::precompileECRecover(evmc_message const& _message) noexcept
+// @TODO(rgeraldes24) - fix arg values
+evmc::Result EVMHost::precompileDepositRoot(evmc_message const& _message) noexcept
 {
 	// NOTE this is a partial implementation for some inputs.
 
@@ -452,11 +453,8 @@ evmc::Result EVMHost::precompileECRecover(evmc_message const& _message) noexcept
 			}
 		}
 	};
-	evmc::Result result = precompileGeneric(_message, inputOutput);
-	// ECRecover will return success with empty response in case of failure
-	if (result.status_code != EVMC_SUCCESS && result.status_code != EVMC_OUT_OF_GAS)
-		return resultWithGas(_message.gas, gas_cost, {});
-	return result;
+	
+	return precompileGeneric(_message, inputOutput);
 }
 
 evmc::Result EVMHost::precompileSha256(evmc_message const& _message) noexcept

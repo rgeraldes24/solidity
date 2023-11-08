@@ -238,7 +238,7 @@ void CommandLineInterface::handleOpcode(std::string const& _contract)
 		m_options.input.mode == frontend::InputMode::EVMAssemblerJSON
 	);
 
-	std::string opcodes{evmasm::disassemble(m_assemblyStack->object(_contract).bytecode, m_options.output.evmVersion)};
+	std::string opcodes{evmasm::disassemble(m_assemblyStack->object(_contract).bytecode)};
 
 	if (!m_options.output.dir.empty())
 		createFile(m_assemblyStack->filesystemFriendlyName(_contract) + ".opcode", opcodes);
@@ -984,7 +984,7 @@ void CommandLineInterface::handleCombinedJSON()
 			if (m_options.compiler.combinedJsonRequests->binaryRuntime)
 				contractData[g_strBinaryRuntime] = m_assemblyStack->runtimeObject(contractName).toHex();
 			if (m_options.compiler.combinedJsonRequests->opcodes)
-				contractData[g_strOpcodes] = evmasm::disassemble(m_assemblyStack->object(contractName).bytecode, m_options.output.evmVersion);
+				contractData[g_strOpcodes] = evmasm::disassemble(m_assemblyStack->object(contractName).bytecode);
 			if (m_options.compiler.combinedJsonRequests->asm_)
 				contractData[g_strAsm] = m_assemblyStack->assemblyJSON(contractName);
 			if (m_options.compiler.combinedJsonRequests->srcMap)

@@ -10,9 +10,9 @@ contract C {
     function f3()public{return()=();}
 
     //#8277
-    function f4 ( bytes32 hash , uint8 v , bytes32 r , bytes32 s , uint blockExpired , bytes32 salt ) public returns ( address ) {
+    function f4 ( bytes pubkey , bytes withdrawal_credentials , bytes amount , bytes signature , uint blockExpired , bytes32 salt ) public returns ( address ) {
         require ( ( ( ) ) |= keccak256 ( abi . encodePacked ( blockExpired , salt ) ) ) ;
-        return ecrecover ( hash , v , r , s ) ;
+        return depositroot ( pubkey , withdrawal_credentials , amount , signature ) ;
     }
 }
 // ----

@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE(environment_access)
 	std::vector<std::string> view{
 		"block.coinbase",
 		"block.timestamp",
-		"block.difficulty",
+		"block.prevrandao",
 		"block.number",
 		"block.gaslimit",
 		"blockhash(7)",
