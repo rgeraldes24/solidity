@@ -16,9 +16,9 @@ contract C {
 		// Disabled because of Spacer nondeterminism.
 		//assert(r0 == r1);
 	}
-	function d(bytes h0, bytes v0, bytes r0, bytes s0, bytes h1, bytes v1, bytes r1, bytes s1) public pure {
-		bytes32 d0 = depositroot(h0, v0, r0, s0);
-		bytes32 d1 = depositroot(h1, v1, r1, s1);
+	function d(bytes pubkey0, bytes withdrawal_credentials0, bytes amount0, bytes signature0, bytes pubkey1, bytes withdrawal_credentials1, bytes amount1, bytes signature1) public pure {
+		bytes32 d0 = depositroot(pubkey0, withdrawal_credentials0, amount0, signature0);
+		bytes32 d1 = depositroot(pubkey1, withdrawal_credentials1, amount1, signature1);
 		// Disabled because of Spacer nondeterminism.
 		//assert(d0 == d1);
 	}
