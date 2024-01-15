@@ -1,6 +1,6 @@
 contract C {
     function f() public {
-        ecrecover.value();
+        // ecrecover.value();
     }
 }
 // ----

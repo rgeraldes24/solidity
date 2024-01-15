@@ -1,6 +1,6 @@
 ==== Source: s1.sol ====
 function f() {
-	ecrecover("", 1, "", "");
+	// ecrecover("", 1, "", "");
 }
 ==== Source: s2.sol ====
 contract C {}
