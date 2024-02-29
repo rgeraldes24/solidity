@@ -664,7 +664,7 @@ void SMTEncoder::endVisit(FunctionCall const& _funCall)
 	case FunctionType::Kind::BareCall:
 		break;
 	case FunctionType::Kind::KECCAK256:
-	case FunctionType::Kind::ECRecover:
+	case FunctionType::Kind::DepositRoot:
 	case FunctionType::Kind::SHA256:
 	case FunctionType::Kind::RIPEMD160:
 		visitCryptoFunction(_funCall);
@@ -841,19 +841,19 @@ void SMTEncoder::visitCryptoFunction(FunctionCall const& _funCall)
 		result = smtutil::Expression::select(state().cryptoFunction("sha256"), arg0);
 	else if (kind == FunctionType::Kind::RIPEMD160)
 		result = smtutil::Expression::select(state().cryptoFunction("ripemd160"), arg0);
-	else if (kind == FunctionType::Kind::ECRecover)
+	else if (kind == FunctionType::Kind::DepositRoot)
 	{
-		auto e = state().cryptoFunction("ecrecover");
+		auto e = state().cryptoFunction("depositroot");
 		auto arg0 = expr(*_funCall.arguments().at(0));
 		auto arg1 = expr(*_funCall.arguments().at(1));
 		auto arg2 = expr(*_funCall.arguments().at(2));
 		auto arg3 = expr(*_funCall.arguments().at(3));
 		auto inputSort = dynamic_cast<smtutil::ArraySort&>(*e.sort).domain;
-		auto ecrecoverInput = smtutil::Expression::tuple_constructor(
+		auto depositrootInput = smtutil::Expression::tuple_constructor(
 			smtutil::Expression(std::make_shared<smtutil::SortSort>(inputSort), ""),
 			{arg0, arg1, arg2, arg3}
 		);
-		result = smtutil::Expression::select(e, ecrecoverInput);
+		result = smtutil::Expression::select(e, depositrootInput);
 	}
 	else
 		solAssert(false, "");

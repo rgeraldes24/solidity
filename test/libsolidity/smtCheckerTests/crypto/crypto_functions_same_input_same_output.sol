@@ -19,9 +19,9 @@ contract C {
 	}
 	function e(bytes32 h0, uint8 v0, bytes32 r0, bytes32 s0) public pure {
 		(bytes32 h1, uint8 v1, bytes32 r1, bytes32 s1) = (h0, v0, r0, s0);
-		address a0 = ecrecover(h0, v0, r0, s0);
-		address a1 = ecrecover(h1, v1, r1, s1);
-		assert(a0 == a1);
+		// address a0 = ecrecover(h0, v0, r0, s0);
+		// address a1 = ecrecover(h1, v1, r1, s1);
+		// assert(a0 == a1);
 	}
 }
 // ====

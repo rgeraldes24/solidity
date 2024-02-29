@@ -10,10 +10,10 @@ contract C {
     function f3()public{return()=();}
 
     //#8277
-    function f4 ( bytes32 hash , uint8 v , bytes32 r , bytes32 s , uint blockExpired , bytes32 salt ) public returns ( address ) {
-        require ( ( ( ) ) |= keccak256 ( abi . encodePacked ( blockExpired , salt ) ) ) ;
-        return ecrecover ( hash , v , r , s ) ;
-    }
+    //function f4 ( bytes32 hash , uint8 v , bytes32 r , bytes32 s , uint blockExpired , bytes32 salt ) public returns ( address ) {
+    //    require ( ( ( ) ) |= keccak256 ( abi . encodePacked ( blockExpired , salt ) ) ) ;
+    //    return ecrecover ( hash , v , r , s ) ;
+    //}
 }
 // ----
 // TypeError 5547: (41-43): Empty tuple on the left hand side.

@@ -1600,7 +1600,7 @@ void IRGeneratorForStatements::endVisit(FunctionCall const& _functionCall)
 
 		break;
 	}
-	case FunctionType::Kind::ECRecover:
+	case FunctionType::Kind::DepositRoot:
 	case FunctionType::Kind::RIPEMD160:
 	case FunctionType::Kind::SHA256:
 	{
@@ -1610,7 +1610,7 @@ void IRGeneratorForStatements::endVisit(FunctionCall const& _functionCall)
 		solAssert(!functionType->hasBoundFirstArgument());
 
 		static std::map<FunctionType::Kind, std::tuple<unsigned, size_t>> precompiles = {
-			{FunctionType::Kind::ECRecover, std::make_tuple(1, 0)},
+			{FunctionType::Kind::DepositRoot, std::make_tuple(1, 0)},
 			{FunctionType::Kind::SHA256, std::make_tuple(2, 0)},
 			{FunctionType::Kind::RIPEMD160, std::make_tuple(3, 12)},
 		};
@@ -1625,9 +1625,6 @@ void IRGeneratorForStatements::endVisit(FunctionCall const& _functionCall)
 		Whiskers templ(R"(
 			let <pos> := <allocateUnbounded>()
 			let <end> := <encodeArgs>(<pos> <argumentString>)
-			<?isECRecover>
-				mstore(0, 0)
-			</isECRecover>
 			let <success> := <call>(<gas>, <address> <?isCall>, 0</isCall>, <pos>, sub(<end>, <pos>), 0, 32)
 			if iszero(<success>) { <forwardingRevert>() }
 			let <retVars> := <shl>(mload(0))
@@ -1638,11 +1635,13 @@ void IRGeneratorForStatements::endVisit(FunctionCall const& _functionCall)
 		templ("allocateUnbounded", m_utils.allocateUnboundedFunction());
 		templ("pos", m_context.newYulVariable());
 		templ("end", m_context.newYulVariable());
-		templ("isECRecover", FunctionType::Kind::ECRecover == functionType->kind());
+		/*
 		if (FunctionType::Kind::ECRecover == functionType->kind())
 			templ("encodeArgs", m_context.abiFunctions().tupleEncoder(argumentTypes, parameterTypes));
 		else
 			templ("encodeArgs", m_context.abiFunctions().tupleEncoderPacked(argumentTypes, parameterTypes));
+		*/
+		templ("encodeArgs", m_context.abiFunctions().tupleEncoderPacked(argumentTypes, parameterTypes));
 		templ("argumentString", joinHumanReadablePrefixed(argumentStrings));
 		templ("address", toString(address));
 		templ("success", m_context.newYulVariable());
@@ -2145,7 +2144,7 @@ void IRGeneratorForStatements::endVisit(MemberAccess const& _memberAccess)
 				case FunctionType::Kind::BareDelegateCall:
 				case FunctionType::Kind::BareStaticCall:
 				case FunctionType::Kind::Transfer:
-				case FunctionType::Kind::ECRecover:
+				case FunctionType::Kind::DepositRoot:
 				case FunctionType::Kind::SHA256:
 				case FunctionType::Kind::RIPEMD160:
 				default:
